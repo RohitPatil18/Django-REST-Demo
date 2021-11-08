@@ -1,3 +1,5 @@
+from django.contrib.auth.models import User
+from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 from core.serializers import UserSerializer
@@ -36,8 +38,12 @@ class ProjectSerializer(serializers.ModelSerializer):
             'created_by'
         ]
         read_only_fields = ['created_at']
-    
+
+    @extend_schema_field
     def get_created_by(self, instance):
+        '''
+        Deriving SerializerMethodField value from the instance.
+        '''
         return f'{instance.created_by.first_name} {instance.created_by.last_name}'
 
     def validate_client_id(self, value):
