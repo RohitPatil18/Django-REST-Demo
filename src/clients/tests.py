@@ -20,7 +20,7 @@ def create_test_client(user) -> Client:
     return user
 
 
-class LoginAPITests(APITestCase):
+class ClientAPITests(APITestCase):
 
     CLIENT_LIST_CREATE_API = 'client-list-create-api'
     CLIENT_RETRIEVE_UPDATE_API = 'client-retrieve-update-api'
