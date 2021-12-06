@@ -7,18 +7,20 @@ from rest_framework import status
 
 PASSWORD = 'password'
 
+
 def create_test_user() -> User:
     '''
     Returns a simple user object making an entry in database
     '''
     user = User.objects.create_user(
-        username = 'rohit',
-        password = PASSWORD,
-        first_name = 'Rohit',
-        last_name = 'Patil',
-        email = 'test@restdemo.com'
+        username='rohit',
+        password=PASSWORD,
+        first_name='Rohit',
+        last_name='Patil',
+        email='test@restdemo.com'
     )
     return user
+
 
 def get_access_token(username: str, password: str) -> str:
     url = reverse('token_obtain_pair')
@@ -37,7 +39,7 @@ class LoginAPITests(APITestCase):
     LOGIN_URL = 'token_obtain_pair'
 
     def setUp(self) -> None:
-        self.user = create_test_user()  
+        self.user = create_test_user()
 
     def test_login_attempt(self) -> None:
         '''
@@ -79,4 +81,3 @@ class LoginAPITests(APITestCase):
         }
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
-

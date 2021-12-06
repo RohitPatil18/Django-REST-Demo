@@ -7,7 +7,6 @@ from clients.models import Client
 from projects.models import Project
 
 
-
 class ProjectInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
@@ -25,7 +24,7 @@ class ProjectSerializer(serializers.ModelSerializer):
     client_id = serializers.IntegerField(write_only=True)
     client = serializers.CharField(read_only=True)
     created_by = serializers.SerializerMethodField()
-    
+
     class Meta:
         model = Project
         fields = [
@@ -39,7 +38,6 @@ class ProjectSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ['created_at']
 
-    @extend_schema_field
     def get_created_by(self, instance):
         '''
         Deriving SerializerMethodField value from the instance.
@@ -54,8 +52,8 @@ class ProjectSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         logged_in_user = self.context['request'].user
         user_ids = validated_data.pop('users')
-        project = Project.objects.create(**validated_data, 
-                                        created_by=logged_in_user)
+        project = Project.objects.create(**validated_data,
+                                         created_by=logged_in_user)
         users = User.objects.filter(id__in=user_ids)
         project.users.add(*users)
         return project
@@ -70,5 +68,3 @@ class ProjectSerializer(serializers.ModelSerializer):
             users.append(user_data)
         data['users'] = users
         return data
-
-    

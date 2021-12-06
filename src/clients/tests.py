@@ -1,23 +1,25 @@
-from django.test import client
 from django.urls import reverse
-from django.contrib.auth.models import User
 
 from rest_framework.test import APIClient, APITestCase
 from rest_framework import status
 
+from faker import Faker
+
 from core.tests import PASSWORD, create_test_user, get_access_token
 from clients.models import Client
 
+
+faker = Faker()
 
 def create_test_client(user) -> Client:
     '''
     Returns a simple client object making an entry in database
     '''
     client = Client.objects.create(
-        client_name = 'Client A',
+        client_name = faker.company(),
         created_by = user
     )
-    return user
+    return client
 
 
 class ClientAPITests(APITestCase):
