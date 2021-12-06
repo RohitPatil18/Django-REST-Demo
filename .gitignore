@@ -1,3 +1,4 @@
 v1/
 *.pyc
 *.sqlite3
+.coverage
